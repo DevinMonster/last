@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./css/bootstrap.css">
+    <title></title>
+</head>
+<body>
+<div style="margin: 50px auto; width: 60%;">
+    <h1>添加商品</h1>
+    <form>
+
+        <div class="form-group">
+            <label>商品名</label>
+            <input type="text" class="form-control" id="name">
+        </div>
+        <div class="form-group">
+            <label>商品信息</label>
+            <input type="text" class="form-control" id="describe">
+        </div>
+
+        <div class="form-group">
+            <label>商品数量</label>
+            <input type="text" class="form-control" id="count">
+        </div>
+
+        <div class="form-group">
+            <label>商品价格</label>
+            <input type="text" class="form-control" id="price">
+        </div>
+
+        <select id="categories">
+        </select>
+        <br><br>
+        <button type="button" class="btn btn-primary" id="commit">提交</button>
+    </form>
+</div>
+<script src="./js/jquery-3.5.1.min.js"></script>
+
+<script src="./js/bootstrap.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $.ajax({
+            url: "http://localhost:8081/category/list",
+            type: "get",
+            headers: {
+                Authorization: sessionStorage.getItem("token"),
+                Accept: "application/json; charset=utf-8"
+            },
+            datatype: 'json',
+            data: '',
+            contentType: 'application/json',
+            success(data) {
+                console.log(data);
+                if (data.code === 200) {
+                    let lst = data.data;
+                    for (let i = 0; i < lst.length; i++) {
+                        $("#categories").append('<option id="opt" value="' + lst[i].id + '">' + lst[i].name + '</option>');
+                    }
+                }
+
+            }
+        });
+    });
+
+    $("#commit").on("click", function () {
+        let name = $("#name").val();
+        let describe = $("#describe").val();
+        let count = $("#count").val();
+        let price = $("#price").val();
+        let id = $("#opt").val();
+        let prod = {
+            'name': name,
+            'productDescribe': describe,
+            'count': count,
+            'price': price,
+            'categoryId': id
+        }
+
+        $.ajax({
+            url: "http://localhost:8081/product/add",
+            type: "post",
+            headers: {
+                Authorization: sessionStorage.getItem("token"),
+                Accept: "application/json; charset=utf-8"
+            },
+            datatype: 'json',
+            data: JSON.stringify(prod),
+            contentType: 'application/json',
+            processData: false,
+            success(data) {
+                console.log(data);
+                if (data.code === 200) {
+                    alert(data.message);
+                    sessionStorage.setItem("productId", data.data.id);
+                    $(location).attr('href', './addProduct_pic.html');
+                } else {
+                    alert("商品添加失败");
+                    $(location).attr('href', './addProduct.html');
+                }
+            }
+        });
+    })
+</script>
+</body>
+</html>

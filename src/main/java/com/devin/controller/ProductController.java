@@ -30,6 +30,7 @@ public class ProductController {
      * @return 构造的返回对象
      */
     @GetMapping("/list")
+    @CrossOrigin
     public APIResult<Product> list(@NotNull Integer categoryId) {
         QueryWrapper<Product> queryWrapper = new QueryWrapper<>();
         // 查找商品类别为category_id的所有商品
@@ -53,7 +54,9 @@ public class ProductController {
      *
      */
     @PostMapping("/add")
+    @CrossOrigin
     public APIResult addProduct(@RequestBody @Validated ProductRequest request) {
+        System.out.println(request);
         Product product = productService.addOneProduct(request);
         return ResultGenerator.genSuccess(product);
     }

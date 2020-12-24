@@ -111,6 +111,71 @@ $("#calcBtn").on("click", function () {
         $("#carTabBody").append('<tr><td style="width: 20%;"><img src="' + product.outputinfo[i].img + '" class="media-img" /></td><td><p>名称：' + product.outputinfo[i].title + '</p><p>数量：' + product.outputinfo[i].num + '</p><p>单价：' + product.outputinfo[i].price + ' ¥</p><p>一共：' + Number(product.outputinfo[i].price) * Number(product.outputinfo[i].num) + ' ¥</p></td><td><input type="checkbox" class="form-check-input" id="exampleCheck1"></td></tr>')
     }
 })
+
+function getProductsByCategoryId(id) {
+    let json_id = {'categoryId': id};
+    var token = sessionStorage.getItem("token");
+    $.ajax({
+        url: "http://localhost:8081/product/list",
+        type: "get",
+        headers: {
+            Authorization: token,
+            Accept: "application/json; charset=utf-8"
+        },
+        datatype: 'json',
+        data: json_id,
+        contentType: 'application/json',
+        success(data) {
+            console.log(data);
+            for (i = 0; i < data.data.length; i++) {
+                let id = data.data[i].id;
+                let name = data.data[i].name;
+                let price = data.data[i].price;
+                let imgs = selectImgByProductId(id);
+                let img1 = null;
+                if (imgs !== null)
+                    if (imgs.length > 0) img1 = imgs[0].url;
+
+                // console.log(imgs_of_product[id]);
+                let productDescribe = data.data[i].productDescribe;
+
+
+                $("#v-pills-home").append('<div class="media"><span id="sumIndex" style="visibility:hidden">' + i +
+                    '</span><img src="' + img1 +
+                    '" class="mr-3 media-img" alt="..."><div class="media-body" ><span id="sumIndex" style="visibility:hidden">' + i +
+                    '</span><h5 class="mt-0 font-weight-normal mediaX" id="titleAX" >' + name +
+                    '</h5><span class="media-font mediaX">' + productDescribe +
+                    '</span><div class="d-flex justify-content-between opt-btn"><h4 class="font-weight-normal">¥' + price + '</h4><span id="sumIndex" style="visibility:hidden">' + i +
+                    '</span><span style="visibility:hidden">abc</span><button class="btn btn-info btn-add">+</button></div></div></div>'
+                );
+            }
+        }
+    })
+}
+
+// 根据产品id查对应图片
+function selectImgByProductId(id) {
+    let json_id = {"productId": id};
+    let token = sessionStorage.getItem("token");
+    // console.log(token);
+    $.ajax({
+        url: "http://localhost:8081/product_pic/list",
+        type: "get",
+        headers: {
+            Authorization: token,
+            Accept: "application/json; charset=utf-8"
+        },
+        datatype: 'json',
+        data: json_id,
+        contentType: 'application/json',
+        success(data) {
+            // console.log(data);
+            if (data.code === 200) return data.data;
+        }
+    });
+    return null;
+}
+
 // 页面初始化加载
 $(document).ready(function () {
     $bodyh = $(window).height(); //浏览器当前窗口文档body的高度
@@ -143,9 +208,8 @@ $(document).ready(function () {
     }
 
 
-
-    product.meuns = ["喜茶实验室", "当季限定", "人气必喝", "喜茶制冰", "热饮推荐", "果茶家族", "名茶/牛乳茶", "啵啵家族", "喜茶咖啡", "纯茶", "加料", "早餐组合"];
-    product.products = [{
+    /*// "喜茶实验室", "当季限定", "人气必喝", "喜茶制冰", "热饮推荐", "果茶家族", "名茶/牛乳茶", "啵啵家族", "喜茶咖啡", "纯茶", "加料", "早餐组合"
+    {
         "id": 1,
         "title": "喜小瓶无糖气泡水",
         "content": "口味升级，专注纯粹果香；容量升级，加量不加价；设计升级，重塑全新流畅瓶型。清新果香唤醒味蕾，纤维添加，不止含糖",
@@ -153,47 +217,62 @@ $(document).ready(function () {
         "img": ["./image/WechatIMG33.jpeg", "./image/WechatIMG32.jpeg"]
     }, {
         "id": 2,
-        "title": "忙忙碌碌",
-        "content": "口味升级，专注纯粹果香；容量升级，加量不加价；设计升级，重塑全新流畅瓶型。清新果香唤醒味蕾，纤维添加，不止含糖",
-        "price": "5.5",
-        "img": ["./image/WechatIMG32.jpeg", "./image/WechatIMG33.jpeg"]
+            "title": "忙忙碌碌",
+            "content": "口味升级，专注纯粹果香；容量升级，加量不加价；设计升级，重塑全新流畅瓶型。清新果香唤醒味蕾，纤维添加，不止含糖",
+            "price": "5.5",
+            "img": ["./image/WechatIMG32.jpeg", "./image/WechatIMG33.jpeg"]
     }, {
         "id": 3,
-        "title": "喜小瓶无糖气泡水",
-        "content": "口味升级，专注纯粹果香；容量升级，加量不加价；设计升级，重塑全新流畅瓶型。清新果香唤醒味蕾，纤维添加，不止含糖",
-        "price": "5.5",
-        "img": ["./image/WechatIMG33.jpeg", "./image/WechatIMG33.jpeg"]
+            "title": "喜小瓶无糖气泡水",
+            "content": "口味升级，专注纯粹果香；容量升级，加量不加价；设计升级，重塑全新流畅瓶型。清新果香唤醒味蕾，纤维添加，不止含糖",
+            "price": "5.5",
+            "img": ["./image/WechatIMG33.jpeg", "./image/WechatIMG33.jpeg"]
     }, {
         "id": 4,
-        "title": "喜小瓶无糖气泡水",
-        "content": "口味升级，专注纯粹果香；容量升级，加量不加价；设计升级，重塑全新流畅瓶型。清新果香唤醒味蕾，纤维添加，不止含糖",
-        "price": "5.5",
-        "img": ["./image/WechatIMG33.jpeg", "./image/WechatIMG33.jpeg"]
+            "title": "喜小瓶无糖气泡水",
+            "content": "口味升级，专注纯粹果香；容量升级，加量不加价；设计升级，重塑全新流畅瓶型。清新果香唤醒味蕾，纤维添加，不止含糖",
+            "price": "5.5",
+            "img": ["./image/WechatIMG33.jpeg", "./image/WechatIMG33.jpeg"]
     }, {
         "id": 5,
-        "title": "喜小瓶无糖气泡水",
-        "content": "口味升级，专注纯粹果香；容量升级，加量不加价；设计升级，重塑全新流畅瓶型。清新果香唤醒味蕾，纤维添加，不止含糖",
-        "price": "17.9",
-        "img": ["./image/WechatIMG33.jpeg", "./image/WechatIMG33.jpeg"]
-    }]
+            "title": "喜小瓶无糖气泡水",
+            "content": "口味升级，专注纯粹果香；容量升级，加量不加价；设计升级，重塑全新流畅瓶型。清新果香唤醒味蕾，纤维添加，不止含糖",
+            "price": "17.9",
+            "img": ["./image/WechatIMG33.jpeg", "./image/WechatIMG33.jpeg"]
+    }*/
 
-    for (i = 0; i < product.meuns.length; i++) {
-        $("#v-pills-tab").append(
-            '<a class="nav-link list-aX" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home">' + product.meuns[i] +
-            '</a>')
-    }
+    // 页面加载显类别
+    var token = sessionStorage.getItem("token");
+    console.log(token);
+    $.ajax({
+        url: "http://localhost:8081/category/list",
+        type: "get",
+        headers: {
+            Authorization: token,
+            Accept: "application/json; charset=utf-8"
+        },
+        datatype: 'json',
+        data: '',
+        contentType: 'application/json',
+        success(data) {
+            // console.log(data);
+            if (data.code === 200) {
+                for (let i = 0; i < data.data.length; i++) {
+                    if (i === 0) {
+                        // 加载首个
+                        getProductsByCategoryId(data.data[i].id);
+                    }
+                    $("#v-pills-tab").append(
+                        '<a class="nav-link list-aX" id="category" onclick="getProductsByCategoryId(' + data.data[i].id +')" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home">' + data.data[i].name + '</a>');
+                }
+            }
+        }
 
-    for (i = 0; i < product.products.length; i++) {
-        $("#v-pills-home").append('<div class="media"><span id="sumIndex" style="visibility:hidden">' + i +
-            '</span><img src="' + product.products[i].img[0] +
-            '" class="mr-3 media-img" alt="..."><div class="media-body" ><span id="sumIndex" style="visibility:hidden">' + i +
-            '</span><h5 class="mt-0 font-weight-normal mediaX" id="titleAX" >' + product.products[i].title +
-            '</h5><span class="media-font mediaX">' + product.products[i].content +
-            '</span><div class="d-flex justify-content-between opt-btn"><h4 class="font-weight-normal">¥' + product.products[
-                i].price + '</h4><span id="sumIndex" style="visibility:hidden">' + i +
-            '</span><span style="visibility:hidden">abc</span><button class="btn btn-info btn-add">+</button></div></div></div>'
-        );
-    }
+    });
+
+
+
+
     //用户点开商品详情
     $(".mediaX").on("click", function () {
         $openModel = $(this).siblings().last();

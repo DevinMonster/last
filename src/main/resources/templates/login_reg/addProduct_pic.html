@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <link rel="stylesheet" href="./css/bootstrap.css">
+    </head>
+<body>
+    <div style="margin: 60px auto; width: 60%;">
+        <h1>添加商品图片</h1>
+        <form>
+        <div class="form-group">
+            <label>商品图片</label>
+            <input type="file" class="form-control-file" id="file">
+            <br>
+
+            <div id="pic"></div>
+            <input type="hidden" id="picName"/>
+        </div>
+
+        <button type="button" class="btn btn-primary" id="commit">提交</button>
+    </form>
+    </div>
+    <script src="./js/jquery.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script>
+        // 上传图片
+        function saveProductPicture(picPath, productId) {
+            let jsondata = {
+                'url': picPath,
+                'productId': productId
+            }
+            let token = sessionStorage.getItem("token");
+            $.ajax({
+                url: "http://localhost:8081/product_pic/add_pic",
+                type: "post",
+                headers: {
+                    Authorization: token,
+                    Accept: "application/json; charset=utf-8"
+                },
+                datatype: 'json',
+                data: JSON.stringify(jsondata),
+                contentType: 'application/json',
+                processData: false,
+                success(data) {
+                    console.log(data);
+                }
+            });
+        }
+
+        // 图片上传
+        $("#file").on("change", function () {
+            var formData = new FormData();
+            var file = $("#file")[0].files[0];
+            formData.append('file', file);
+            // ajax 异步上传
+            $.ajax({
+                url: "http://localhost:8081/qiniu/upload",
+                type: "post",
+                headers: {
+                    Authorization: sessionStorage.getItem("token"),
+                    Accept: "application/json; charset=utf-8"
+                },
+                data: formData,
+                contentType: false,
+                processData: false,
+                success(data) {
+                    /*
+                     *  code: 200
+                        data: "http://qlgqf1fbm.hn-bkt.clouddn.com/advance/160873176985920201223215609738-3f24363b-e78a-4df9-bd4e-cbec14b0c902.jpg"
+                        message: "成功"
+                     * */
+                    const code = data.code;
+                    if (code === 200) {
+                        let picPath = data.data;
+                        // 存储我们的对象
+                        saveProductPicture(picPath, productId);
+                    } else alert("图片上传失败")
+                }
+            });
+        });
+    </script>
+</body>
+</html>

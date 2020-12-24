@@ -33,6 +33,9 @@ public class JWTTokenFilter extends HandlerInterceptorAdapter {
     }
 
     private boolean check(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        if(request.getMethod().equals("OPTIONS")){
+            return true;
+        }
         // 获取JWT信息
         String servletPath = request.getServletPath(); // 接口
         // 判断请求的接口是否需要登录

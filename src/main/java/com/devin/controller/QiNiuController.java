@@ -25,6 +25,6 @@ public class QiNiuController {
     public APIResult upload(@RequestBody MultipartFile file) throws IOException {
         String originalFilename = file.getOriginalFilename();
         String newName = QiniuUtils.byteUpLoad(file.getBytes(), Utils.generateUUName(originalFilename));
-        return ResultGenerator.genSuccess(prefix + newName);
+        return ResultGenerator.genSuccess(prefix.concat(newName));
     }
 }
