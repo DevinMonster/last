@@ -15,7 +15,7 @@ import org.apache.ibatis.annotations.Param;
 public interface ProductMapper extends BaseMapper<Product> {
 
     // 查询库存
-    int queryCount(@Param("id") Long id);
+    Long queryCount(@Param("id") Long id);
 
     // 修改库存
     int updateCount(@Param("id") Long id, @Param("count") Long count);
