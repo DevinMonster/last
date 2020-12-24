@@ -2,4 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.devin.mapper.OrdersMapper">
 
+    <insert id="insertOrder" parameterType="com.devin.entity.Orders" >
+        insert into test.orders
+        (id, user_id, products, total_bill, is_deleted, create_time, update_time)
+        values
+        (#{id},#{user_id}, #{products}, #{total_bill}, #{is_deleted}, #{create_time}, #{update_time});
+    </insert>
+
+    <select id="queryOrders" parameterType="int" resultType="com.devin.entity.Orders">
+        select * from test.order;
+    </select>
+
+    <select id="queryOrderByName" parameterType="int" resultType="com.devin.entity.Orders">
+        select * from test.order where products=#{products} and is_deleted=0;
+    </select>
+
+    <delete id="deleteOrder" parameterType="com.devin.entity.Orders">
+        delete from test.order where id=#{id};
+    </delete>
+    
+    <update id="updateOrder" parameterType="com.devin.entity.Orders">
+        update test.order set
+        user_id=#{user_id},products=#{products}
+        ,total_bill=#{total_bill},is_deleted=#{is_deleted}
+        ,create_time=#{create_time},update_time=#{update_time}
+        where id=#{id};
+    </update>
+
 </mapper>
