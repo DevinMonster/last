@@ -3,6 +3,7 @@ package com.devin.entity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -46,9 +47,9 @@ public class Orders implements Serializable {
 
     private Integer isDeleted;
 
-    private LocalDateTime createTime;
+    private Date createTime;
 
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
 
 }
