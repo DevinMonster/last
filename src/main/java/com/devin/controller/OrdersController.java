@@ -44,7 +44,7 @@ public class OrdersController {
 
     // 结算增加订单
     @RequestMapping("/balance")
-    public APIResult balanceOrder(@RequestBody Orders orders, @RequestBody Long id, @RequestBody Long stock) {
+    public APIResult balanceOrder(@RequestBody @Validated Orders orders, @RequestBody Long id, @RequestBody Long stock) {
         Long count = productService.queryCount(id);
         if (stock > count) {
             throw new GlobalException(ApiEnum.BALANCE_COUNT_ERROR);
