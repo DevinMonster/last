@@ -40,4 +40,19 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         productMapper.insert(product);
         return product;
     }
+
+    @Override
+    public Long queryCount(Long id) {
+        return productMapper.queryCount(id);
+    }
+
+    @Override
+    public int updateCount(Long id, Long count) {
+        return productMapper.updateCount(id, count);
+    }
+
+    @Override
+    public double queryPrice(Long id) {
+        return productMapper.queryPrice(id);
+    }
 }

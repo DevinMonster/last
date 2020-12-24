@@ -19,4 +19,14 @@ public interface IProductService extends IService<Product> {
      * @param request 请求对象
      */
     Product addOneProduct(ProductRequest request);
+
+    // 查询库存
+    Long queryCount(Long id);
+
+    // 修改库存
+    int updateCount(Long id, Long count);
+
+    // 获取价格
+    double queryPrice(Long id);
+
 }

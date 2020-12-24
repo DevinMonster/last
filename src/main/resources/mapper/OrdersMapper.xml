@@ -16,10 +16,6 @@
     <select id="queryOrderByName" parameterType="int" resultType="com.devin.entity.Orders">
         select * from test.order where products=#{products} and is_deleted=0;
     </select>
-
-    <delete id="deleteOrder" parameterType="com.devin.entity.Orders">
-        delete from test.order where id=#{id};
-    </delete>
     
     <update id="updateOrder" parameterType="com.devin.entity.Orders">
         update test.order set

@@ -1,16 +1,22 @@
 package com.devin.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.devin.entity.Orders;
+import com.devin.entity.Product;
+import com.devin.enums.ApiEnum;
+import com.devin.exception.GlobalException;
 import com.devin.mapper.OrdersMapper;
 import com.devin.service.IOrdersService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author Chika
@@ -22,8 +28,13 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
     private OrdersMapper ordersMapper;
 
     @Override
-    public int insertOrder(Orders orders) {
-        return ordersMapper.insertOrder(orders);
+    public Orders insertOrder(Orders orders) {
+        Orders orders1 = new Orders();
+        BeanUtils.copyProperties(orders,orders1);
+        orders1.setCreateTime(new Date());
+        orders1.setUpdateTime(new Date());
+        ordersMapper.insertOrder(orders);
+        return orders;
     }
 
     @Override
@@ -36,9 +47,8 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         return ordersMapper.queryOrderByName(products);
     }
 
-    @Override
     public int deleteOrder(Long id) {
-        return ordersMapper.deleteOrder(id);
+        return ordersMapper.deleteById(id);
     }
 
     @Override

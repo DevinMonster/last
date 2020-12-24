@@ -18,7 +18,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @Api("全局返回值")
-public class APIResult<T> {
+public class APIResult<T> extends Throwable {
     // 状态码
     @ApiModelProperty("状态码")
     private Integer code;

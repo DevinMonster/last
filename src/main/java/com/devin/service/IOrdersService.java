@@ -18,7 +18,7 @@ public interface IOrdersService extends IService<Orders> {
 
 
     // 增加订单
-    int insertOrder(Orders orders);
+    Orders insertOrder(Orders orders);
 
     // 查询订单
     List<Orders> queryOrders();
@@ -26,8 +26,6 @@ public interface IOrdersService extends IService<Orders> {
     // 根据商品名称查询订单
     Orders queryOrderByName(String products);
 
-    // 删除订单
-    int deleteOrder(Long id);
 
     // 修改订单
     int updateOrder(Orders orders);

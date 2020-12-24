@@ -19,7 +19,7 @@ public enum ApiEnum {
     PRODUCT_ALREADY_EXIST(10006, "商品已经存在请勿重复添加！"),
     PRODUCT_NOT_EXIST(10007, "商品不存在"),
     USER_NOT_LEAGLE(10008, "用户信息不合法！"),
-
+    BALANCE_COUNT_ERROR(20000,"库存不足！")
     ;
 
     private final Integer code;
