@@ -14,9 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 public class JWTTokenFilter extends HandlerInterceptorAdapter {
 
     /**
-     * 不需要登录就能访问的接口
+     *
      */
-    public static final String NOLOGIN = "/user/login,/user/register,/user/code";
+    public static final String NOLOGIN = "/user/login,/user/register,/user/code,/product/list,/product/listAll";
     private static final String[] lst = NOLOGIN.split(",");
 
     /**

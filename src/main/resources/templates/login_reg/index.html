@@ -16,9 +16,9 @@
 <!--这是导航栏-->
 <nav class="navbar sticky-top navbar-light bg-light" id="topNav">
     <a class="navbar-brand font-italic font-weight-bolder font-weight-lighter" href="#">小商小贩</a>
-    <div class="btn-group" role="group" aria-label="Basic example">
-        <button type="button" class="btn btn-link">登录</button>
-        <button type="button" class="btn btn-link">注册</button>
+    <div class="btn-group" role="group" aria-label="Basic example" id="nav_login_reg">
+        <button type="button" class="btn btn-link" id="login">登录</button>
+        <button type="button" class="btn btn-link" id="register">注册</button>
     </div>
 </nav>
 
@@ -120,6 +120,17 @@
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
 <script src="./js/index-page.js"></script>
+<script>
+    // 当login元素被点击时跳转到登录页面
+    $("#login").on('click', function () {
+        $(location).attr('href', './login.html');
+    });
+
+    // 当register元素被点击时跳转到注册页面
+    $("#register").on('click', function () {
+        $(location).attr('href', './register.html');
+    });
+</script>
 
 </body>
 </html>

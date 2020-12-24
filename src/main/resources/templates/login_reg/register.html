@@ -133,13 +133,19 @@
                 success(data) {
                     let code = data.code;
                     if (code !== 200) {
-                        alert(data.message);
+                        alert(data.message)
+                        // 跳转到注册页
+                        $(location).attr('href', './register.html');
                     } else {
                         alert("注册成功");
+                        // 跳转到登录页
+                        $(location).attr('href', './login.html');
                     }
                 },
                 error(data) {
                     alert("注册失败");
+                    // 跳转到注册页
+                    $(location).attr('href', './register.html');
                 }
             });
         })

@@ -45,7 +45,7 @@ public class Utils {
     private static boolean checkPassword(String password, int minlen, int maxlen) {
         if (password == null) return false;
         int len = password.length();
-        if (len < minlen && len > maxlen) return false;
+        if (len < minlen || len > maxlen) return false;
         // check without blank character
         for (int i = 0; i < len; i++) {
             if (' ' == password.charAt(i)) return false;

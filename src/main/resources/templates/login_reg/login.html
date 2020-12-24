@@ -84,9 +84,22 @@
                 contentType: 'application/json',
                 success(data) {
                     // console.log(data);
-                    // 请求成功后将TOKEN和请求头放入SESSION作用域
-                    sessionStorage.setItem("token", data.data.token);
-                    sessionStorage.setItem("tokenHead", data.data.tokenHead);
+                    if (data.code === 200) {
+                        // 请求成功后将TOKEN和请求头放入SESSION作用域
+                        sessionStorage.setItem("token", data.data.token);
+                        sessionStorage.setItem("tokenHead", data.data.tokenHead);
+                        sessionStorage.setItem("username", data.data.username);
+                        sessionStorage.setItem("userpic", data.data.userpic);
+                        // 跳转到主页
+                        $(location).attr('href', './index.html');
+                    } else {
+                        alert(data.message);
+                        $(location).attr('href', './login.html');
+                    }
+                },
+                error(data) {
+                    alert(data.message);
+                    $(location).attr('href', './login.html');
                 }
             });
 

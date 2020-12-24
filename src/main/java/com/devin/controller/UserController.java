@@ -10,6 +10,7 @@ import com.devin.enums.ApiEnum;
 import com.devin.exception.GlobalException;
 import com.devin.service.IUserService;
 import com.devin.utils.JWTUtil;
+import com.devin.utils.Utils;
 import com.devin.utils.VerifyCode;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.validation.annotation.Validated;
@@ -99,13 +100,17 @@ public class UserController {
         Map<String, Object> tokenMap = new HashMap<>();
         tokenMap.put("token", token);
         tokenMap.put("tokenHead", "Authorization");
+        // 存入用户名和头像
+        tokenMap.put("username", user.getUsername());
+        System.out.println(user.getPicName());
+        tokenMap.put("userpic", user.getPicName());
 
         return ResultGenerator.genSuccess(tokenMap);
     }
 
     @PostMapping("/register")
     @CrossOrigin
-    public APIResult register(@RequestBody UserRequest request) {
+    public APIResult register(@RequestBody @Validated UserRequest request) {
         User user = userService.registerUser(request);
         if (user != null)
             return ResultGenerator.genSuccess(user);

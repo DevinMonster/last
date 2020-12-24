@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>updatePic</title>
+    <link rel="stylesheet" href="./css/bootstrap.css"/>
+</head>
+<body>
+    <input type="hidden" id="">
+    <form>
+        <div class="form-group" id="graph1">
+            <label for="pic1">pic1</label>
+            <input type="file" class="form-control-file" id="pic1">
+            <input type="hidden" id="picPath">
+        </div>
+    </form>
+
+    <script src="./js/jquery-3.5.1.min.js"></script>
+    <script src="./js/bootstrap.js"></script>
+    <script>
+        // 图片上传
+        $("#pic1").on("change", function () {
+            let formData = new FormData();
+            let file = $("#pic1")[0].files[0];
+            formData.append('file', file);
+            // ajax 异步上传
+            $.ajax({
+                url: "http://localhost:8081/qiniu/upload",
+                type: "post",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success(data) {
+                    /*
+                     *  code: 200
+                        data: "http://qlgqf1fbm.hn-bkt.clouddn.com/advance/160873176985920201223215609738-3f24363b-e78a-4df9-bd4e-cbec14b0c902.jpg"
+                        message: "成功"
+                     * */
+                    const code = data.code;
+                    if (code === 200) {
+                        let filePath = data.data;
+                        // 存储我们的对象
+                        $.ajax({
+                            url: "http://localhost:8081/qiniu/upload",
+                            type: "post",
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                        })
+                    } else alert("图片上传失败")
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -111,7 +111,7 @@ $("#calcBtn").on("click", function () {
         $("#carTabBody").append('<tr><td style="width: 20%;"><img src="' + product.outputinfo[i].img + '" class="media-img" /></td><td><p>名称：' + product.outputinfo[i].title + '</p><p>数量：' + product.outputinfo[i].num + '</p><p>单价：' + product.outputinfo[i].price + ' ¥</p><p>一共：' + Number(product.outputinfo[i].price) * Number(product.outputinfo[i].num) + ' ¥</p></td><td><input type="checkbox" class="form-check-input" id="exampleCheck1"></td></tr>')
     }
 })
-
+// 页面初始化加载
 $(document).ready(function () {
     $bodyh = $(window).height(); //浏览器当前窗口文档body的高度
     $topnav = $("#topNav").outerHeight(true);
@@ -125,6 +125,23 @@ $(document).ready(function () {
     $("#contentColX").css("height", $result);
     $("#listColX").css("background", "rgba(230,230,230,0.7)");
     $("#collapseBtnCalc").css("bottom", $lastnav)
+
+    // 1. 判断是否登录
+    var item = sessionStorage.getItem("token");
+    // 说明起码是有token的
+    if (item !== null) {
+        // 用户名
+        let name = sessionStorage.getItem("username");
+        // 头像
+        let picurl = sessionStorage.getItem("userpic");
+        console.log(picurl);
+        $("#login").remove();
+        $("#register").remove();
+        $("#nav_login_reg")
+            .append('<button type="button" class="btn btn-link" id="login"> 欢迎!'+ name + '</button>')
+            .append('<img class="rounded-circle" style="width: 40px;height: 40px;" src="' + picurl +'"/>');
+    }
+
 
 
     product.meuns = ["喜茶实验室", "当季限定", "人气必喝", "喜茶制冰", "热饮推荐", "果茶家族", "名茶/牛乳茶", "啵啵家族", "喜茶咖啡", "纯茶", "加料", "早餐组合"];

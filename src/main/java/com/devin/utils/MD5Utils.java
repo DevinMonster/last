@@ -88,6 +88,6 @@ public class MD5Utils {
     }
 
     public static void main(String[] args) {
-        System.out.println(MD5Utils.encode("aaaa"));
+        System.out.println(MD5Utils.encode("123456"));
     }
 }

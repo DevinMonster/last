@@ -11,7 +11,7 @@
 
     <!--  根据用户名查用户实体  -->
     <select id="selectByName" parameterType="String" resultType="com.devin.entity.User">
-        select id, username, password, gender, version, is_deleted from user
+        select id, username, password, pic_name, gender, version, is_deleted from user
         where username = #{username};
     </select>
 

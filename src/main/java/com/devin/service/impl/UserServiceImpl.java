@@ -76,14 +76,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     public User registerUser(UserRequest user) {
+        // 检查用户是否合法
+        if (!Utils.userLeagle(user)) throw new GlobalException(ApiEnum.USER_NOT_LEAGLE);
         // 查询用户名是否存在
-        User select = userMapper.selectByName(user.getUsername());
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username", user.getUsername());
+        User select = userMapper.selectOne(queryWrapper);
         if (select != null) throw new GlobalException(ApiEnum.USERNAME_REGISTED);
         // 确认密码
         if (!user.getPassword().equals(user.getCheckPassword())) throw new GlobalException(ApiEnum.PASSWORD_NOT_MATCH);
         // md5加密
         User add = new User(user);
-        add.setPassword(MD5Utils.encode(add.getUsername()));
+        add.setPassword(MD5Utils.encode(add.getPassword()));
+        userMapper.insert(add);
         return add;
     }
 }
